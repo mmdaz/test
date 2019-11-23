@@ -536,3 +536,7 @@ procdump(void)
 int getppid(void){
   return proc->parent->pid;
 }
+
+void getChildren(){
+
+}
