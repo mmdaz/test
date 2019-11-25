@@ -533,10 +533,11 @@ procdump(void)
   }
 }
 
-int getppid(void){
-  return proc->parent->pid;
-}
+// int getppid(void){
 
-void getChildren(){
+// }
 
-}
+// int getChildren(int parentID){
+  
+  
+// }

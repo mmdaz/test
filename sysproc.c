@@ -89,3 +89,23 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+
+int sys_getppid(void){
+  cprintf("Run getPPID \n");
+  struct proc *curproc = myproc();
+  return curproc->parent->pid;
+}
+
+int sys_getChildren(int parentID){
+if (parentID == 0){
+    int curpid = myproc() -> pid;
+    cprintf("I am child and my id is %d",curpid);
+    return curpid;
+  }
+  else
+  {
+    return 0;
+    // TODO: Complete
+  }
+  }
