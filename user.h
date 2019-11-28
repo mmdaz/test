@@ -1,3 +1,5 @@
+#include "types.h"
+
 struct stat;
 struct rtcdate;
 
@@ -24,7 +26,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getppid(void);
-int getChildren(int);
+int getChildren(void);
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);
