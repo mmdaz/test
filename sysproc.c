@@ -97,15 +97,17 @@ int sys_getppid(void){
   return curproc->parent->pid;
 }
 
-int sys_getChildren(int parentID){
-if (parentID == 0){
-    int curpid = myproc() -> pid;
-    cprintf("I am child and my id is %d",curpid);
-    return curpid;
-  }
-  else
-  {
-    return 0;
-    // TODO: Complete
-  }
-  }
+int sys_getChildren(void){
+  cprintf("HEyyyyyyyyyyy");
+// if (parentID == 0){
+//     int curpid = myproc() -> pid;
+//     cprintf("I am child and my id is %d",curpid);
+//     return curpid;
+//   }
+//   else
+//   {
+//     return 0;
+//     // TODO: Complete
+//   }
+  return 1;
+}
