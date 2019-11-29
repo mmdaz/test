@@ -532,12 +532,3 @@ procdump(void)
     cprintf("\n");
   }
 }
-
-// int getppid(void){
-
-// }
-
-// int getChildren(int parentID){
-  
-  
-// }
