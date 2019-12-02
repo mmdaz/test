@@ -92,24 +92,12 @@ sys_uptime(void)
 
 
 int sys_getppid(void){
-  cprintf("Run getPPID \n");
   struct proc *curproc = myproc();
   return curproc->parent->pid;
 }
 
 int sys_getChildren(void){
-  struct proc *curproc = myproc();
-
-int pid ;
-argint(0, &pid);
-if (pid == 0){
-    cprintf("I am child and my id is %d\n",curproc -> pid);
-    return pid;
-  }
-  else
-  {
-    // cprintf("I am parent and my id is %d\n", curproc -> pid);
-    return 0;
-  }
-  return 1;
+  int pid ;
+  argint(0, &pid);
+  return getChildren(pid);
 }

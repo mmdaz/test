@@ -7,6 +7,7 @@
 #include "proc.h"
 #include "spinlock.h"
 
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -531,4 +532,56 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+
+int power(int x,  int y) 
+{ 
+    if (y == 0) 
+        return 1; 
+    else if (y % 2 == 0) 
+        return power(x, y / 2) * power(x, y / 2); 
+    else
+        return x * power(x, y / 2) * power(x, y / 2); 
+} 
+
+
+int concatinateNumbers(int *numbers, int size){
+  // FIXME for non single dogit pids 
+
+  int result = 0;
+  for (int i = 0; i < size; i ++){
+    result += power(10, i) * numbers[i]; 
+  }
+  return result;
+
+}
+
+int 
+getChildren(int curpid){
+  struct proc *p;
+  int result[80];
+  int counter = 0;
+  
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      // cprintf("p -> parent[0] -> pid = %d\n", p -> parent -> pid);
+      // cprintf("curpid %d\n", curpid);
+      if(p -> parent -> pid == curpid){
+        result[counter] = p -> pid;
+        counter ++;
+      }
+  }
+
+
+  if (counter > 0)
+  {
+  // cprintf("ashghal counter %d \n", counter);
+  return concatinateNumbers(result, counter);
+  }
+  else
+  {
+    return -1;
+  }
+  
+
 }
