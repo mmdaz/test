@@ -105,6 +105,8 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_getppid(void);
 extern int sys_getChildren(void);
+extern int sys_count(void);
+extern int countCalls;
 
 
 static int (*syscalls[])(void) = {
@@ -131,12 +133,14 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_getppid] sys_getppid,
 [SYS_getChildren] sys_getChildren,
+[SYS_count]   sys_count,
 };
 
 void
 syscall(void)
 {
   int num;
+  countCalls++;
   struct proc *curproc = myproc();
 
   num = curproc->tf->eax;
