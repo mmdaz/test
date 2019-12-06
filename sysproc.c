@@ -90,6 +90,11 @@ sys_uptime(void)
   return xticks;
 }
 
+int
+sys_count(void)
+{
+  return count();
+}
 
 int sys_getppid(void){
   struct proc *curproc = myproc();

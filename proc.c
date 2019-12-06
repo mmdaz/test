@@ -16,6 +16,7 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
+int countCalls = 0;
 extern void forkret(void);
 extern void trapret(void);
 
@@ -555,6 +556,12 @@ int concatinateNumbers(int *numbers, int size){
   }
   return result;
 
+}
+
+int
+count(){
+  cprintf("This SysCall Has Been Called %d Times.\n",countCalls);
+  return 24;
 }
 
 int 

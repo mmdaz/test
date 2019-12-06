@@ -4,7 +4,7 @@
 
 
 
-int main(){
+int main(int argc, char *argv[]){
 
 fork();
 fork();
@@ -20,5 +20,5 @@ printf(1, "children of %d : %d\n", pid, children_id);
 
 // printf(1, "children of %d is : %d\n", pid2, getChildren(pid2));
 
-     return 0;
+exit();
 }

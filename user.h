@@ -27,6 +27,7 @@ int sleep(int);
 int uptime(void);
 int getppid(void);
 int getChildren(int);
+int count(void);
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);
