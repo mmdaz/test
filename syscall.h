@@ -23,3 +23,6 @@
 #define SYS_getppid 22
 #define SYS_getChildren 23
 #define SYS_count 24
+#define SYS_cps 25
+#define SYS_changePriority 26
+#define SYS_calculateMinCalculatedPriority 27

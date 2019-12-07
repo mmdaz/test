@@ -592,3 +592,38 @@ getChildren(int curpid){
   
 
 }
+
+//change priority
+int
+changePriority( int priority )
+{
+  struct proc *p;
+  
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+        if (p -> state == RUNNING){
+        p-> calculatedPriority += priority;
+        return 1;
+        }
+  }
+  release(&ptable.lock);
+
+  return -1;
+}
+
+int cps(){
+  struct proc *p;
+  sti();
+  acquire(&ptable.lock);
+  cprintf("name \t pid \t state \t calculatedPriority \n");
+  for (p=ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if (p -> state == SLEEPING)
+      cprintf("%s \t %d \t SLEEPING \t %d \n", p -> name, p -> pid, p -> calculatedPriority);
+    else if (p -> state == RUNNING)
+      cprintf("%s \t %d \t RUNNING \t %d \n", p -> name, p -> pid, p -> calculatedPriority);
+  }
+  release(&ptable.lock);
+  return 25;
+}
+

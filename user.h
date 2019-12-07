@@ -28,6 +28,9 @@ int uptime(void);
 int getppid(void);
 int getChildren(int);
 int count(void);
+int cps(void);
+int changePriority(int);
+
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);

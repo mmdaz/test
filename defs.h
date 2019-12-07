@@ -123,6 +123,8 @@ void            yield(void);
 int             getppid(void);
 int             getChildren(int);
 int             count(void);
+int             cps(void);
+int             changePriority(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
