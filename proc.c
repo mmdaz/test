@@ -7,6 +7,9 @@
 #include "proc.h"
 #include "spinlock.h"
 
+#define NULL 0
+
+int calculateMinCalculatedPriority();
 
 struct {
   struct spinlock lock;
@@ -90,6 +93,8 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p -> priority = 5;
+  p -> calculatedPriority = calculateMinCalculatedPriority(); // TODO calculate minimum of all.
 
   release(&ptable.lock);
 
@@ -369,6 +374,7 @@ sched(void)
 {
   int intena;
   struct proc *p = myproc();
+  p -> calculatedPriority += p -> priority;
 
   if(!holding(&ptable.lock))
     panic("sched ptable.lock");
@@ -626,4 +632,29 @@ int cps(){
   release(&ptable.lock);
   return 25;
 }
+
+int calculateMinCalculatedPriority(){
+  struct proc *p;
+  struct proc *highP = NULL;
+  struct proc *p1;
+  
+
+    for (p=ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    highP = p;
+      // choose one with highest priority
+      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+        if ( highP -> calculatedPriority >  p1-> calculatedPriority )   // larger value, lower priority 
+          highP = p1;
+      }
+  }
+  if (highP == NULL){
+    cprintf("heeeeeeey");
+    return 0;
+  }
+  cprintf("ashghal %d\n", highP->calculatedPriority);
+  return highP -> calculatedPriority;
+
+}
+
 
