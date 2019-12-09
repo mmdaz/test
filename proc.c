@@ -578,11 +578,12 @@ int concatinateNumbers(int *numbers, int size){
 
   int result = 0;
   for (int i = 0; i < size; i ++){
-    result += power(10, i) * numbers[i]; 
+    result = result * 100 + numbers[i]; 
   }
   return result;
 
 }
+
 
 int
 count(){
