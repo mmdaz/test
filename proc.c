@@ -97,6 +97,7 @@ found:
   p->pid = nextpid++;
   p -> priority = 5;
   p -> calculatedPriority = calculateMinCalculatedPriority(); // TODO calculate minimum of all.
+  p -> creationTime = ticks;
 
   release(&ptable.lock);
 
@@ -272,6 +273,7 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
+  curproc -> terminationTime = ticks;
   sched();
   panic("zombie exit");
 }
@@ -681,4 +683,21 @@ int changePolicy(int newPolicy){
       return 1;
     }
     return -1;
+}
+
+void updatePtableTimes(){
+  struct proc *p;
+  sti();
+  acquire(&ptable.lock);
+  for (p=ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if (p -> state == SLEEPING)
+      p -> sleepingTime = ticks;
+    else if (p -> state == RUNNING)
+      p -> runningTime = ticks;
+    else if (p -> state == RUNNABLE)
+      p -> readyTime = ticks;
+  }
+  release(&ptable.lock);
+  
 }
