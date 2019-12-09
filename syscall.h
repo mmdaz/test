@@ -26,3 +26,4 @@
 #define SYS_cps 25
 #define SYS_changePriority 26
 #define SYS_calculateMinCalculatedPriority 27
+#define SYS_changePolicy 28

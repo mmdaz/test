@@ -121,3 +121,12 @@ sys_changePriority (void)
   return changePriority (pr);
 }
 
+int
+sys_changePolicy(void){
+  int plc;
+    if(argint(0, &plc) < 0)
+    return -1;
+
+  return changePolicy (plc);
+}
+

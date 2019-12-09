@@ -9,6 +9,8 @@
 
 #define NULL 0
 
+int policy;
+
 int calculateMinCalculatedPriority();
 
 struct {
@@ -658,3 +660,10 @@ int calculateMinCalculatedPriority(){
 }
 
 
+int changePolicy(int newPolicy){
+    if (newPolicy == 0 || newPolicy == 1 || newPolicy == 2){
+      policy = newPolicy;
+      return 1;
+    }
+    return -1;
+}

@@ -109,6 +109,7 @@ extern int sys_count(void);
 extern int countCalls;
 extern int sys_cps(void);
 extern int sys_changePriority(void);
+extern int sys_changePolicy(void);
 
 
 
@@ -139,6 +140,7 @@ static int (*syscalls[])(void) = {
 [SYS_count]   sys_count,
 [SYS_cps]     sys_cps,
 [SYS_changePriority]    sys_changePriority,
+[SYS_changePolicy]      sys_changePolicy,
 };
 
 void
