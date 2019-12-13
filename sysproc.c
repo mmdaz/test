@@ -130,3 +130,11 @@ sys_changePolicy(void){
   return changePolicy (plc);
 }
 
+int
+sys_waitForChildren(struct timeVariables* time){
+  // struct timeVariables* time;
+  //   if(argint(0, &time) < 0)
+  //   return -1;
+
+  return waitForChildren (time);
+}

@@ -27,3 +27,4 @@
 #define SYS_changePriority 26
 #define SYS_calculateMinCalculatedPriority 27
 #define SYS_changePolicy 28
+#define SYS_waitForChildren 29
