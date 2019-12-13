@@ -39,6 +39,7 @@ sys_kill(void)
 int
 sys_getpid(void)
 {
+  counter[11];
   return myproc()->pid;
 }
 

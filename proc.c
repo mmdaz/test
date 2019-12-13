@@ -22,7 +22,7 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
-int countCalls = 0;
+// int countCalls = 0;
 extern void forkret(void);
 extern void trapret(void);
 
@@ -197,6 +197,7 @@ fork(void)
   int i, pid;
   struct proc *np;
   struct proc *curproc = myproc();
+  counter[1]++;
 
   // Allocate process.
   if((np = allocproc()) == 0){
@@ -244,6 +245,8 @@ exit(void)
   struct proc *curproc = myproc();
   struct proc *p;
   int fd;
+  counter[2]++;
+
 
   if(curproc == initproc)
     panic("init exiting");
@@ -263,7 +266,8 @@ exit(void)
 
   acquire(&ptable.lock);
 
-  // Parent might be sleeping in wait().
+  // Parent might be slee
+  ng in wait().
   wakeup1(curproc->parent);
 
   // Pass abandoned children to init.
@@ -290,6 +294,8 @@ wait(void)
   struct proc *p;
   int havekids, pid;
   struct proc *curproc = myproc();
+  counter[3]++;
+
   
   acquire(&ptable.lock);
   for(;;){
@@ -501,7 +507,8 @@ void
 sleep(void *chan, struct spinlock *lk)
 {
   struct proc *p = myproc();
-  
+  counter[13];
+
   if(p == 0)
     panic("sleep");
 
@@ -563,7 +570,7 @@ int
 kill(int pid)
 {
   struct proc *p;
-
+  counter[6];
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->pid == pid){
