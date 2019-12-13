@@ -7,6 +7,11 @@
 #include "proc.h"
 #include "spinlock.h"
 
+#define NULL 0
+
+int policy;
+
+int calculateMinCalculatedPriority();
 
 struct {
   struct spinlock lock;
@@ -90,6 +95,9 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p -> priority = 5;
+  p -> calculatedPriority = calculateMinCalculatedPriority(); // TODO calculate minimum of all.
+  p -> creationTime = ticks;
 
   release(&ptable.lock);
 
@@ -265,6 +273,7 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
+  curproc -> terminationTime = ticks;
   sched();
   panic("zombie exit");
 }
@@ -325,13 +334,16 @@ void
 scheduler(void)
 {
   struct proc *p;
+  struct proc *p1;
   struct cpu *c = mycpu();
   c->proc = 0;
   
   for(;;){
     // Enable interrupts on this processor.
     sti();
-
+    
+    
+    struct proc *highP = NULL;
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
@@ -341,6 +353,19 @@ scheduler(void)
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
+        
+      if (policy == 2) {
+        highP = p;
+        // choose one with highest priority
+        for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+          if(p1->state != RUNNABLE)
+            continue;
+          if ( highP->priority > p1->priority )   // larger value, lower priority 
+            highP = p1;
+        }
+        p = highP;
+      }
+      
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
@@ -369,6 +394,7 @@ sched(void)
 {
   int intena;
   struct proc *p = myproc();
+  p -> calculatedPriority += p -> priority;
 
   if(!holding(&ptable.lock))
     panic("sched ptable.lock");
@@ -552,11 +578,12 @@ int concatinateNumbers(int *numbers, int size){
 
   int result = 0;
   for (int i = 0; i < size; i ++){
-    result += power(10, i) * numbers[i]; 
+    result = result * 100 + numbers[i]; 
   }
   return result;
 
 }
+
 
 int
 count(){
@@ -591,4 +618,87 @@ getChildren(int curpid){
   }
   
 
+}
+
+//change priority
+int
+changePriority( int priority )
+{
+  struct proc *p;
+  
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+        if (p -> state == RUNNING){
+        p-> calculatedPriority += priority;
+        return 1;
+        }
+  }
+  release(&ptable.lock);
+
+  return -1;
+}
+
+int cps(){
+  struct proc *p;
+  sti();
+  acquire(&ptable.lock);
+  cprintf("name \t pid \t state \t calculatedPriority \n");
+  for (p=ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if (p -> state == SLEEPING)
+      cprintf("%s \t %d \t SLEEPING \t %d \n", p -> name, p -> pid, p -> calculatedPriority);
+    else if (p -> state == RUNNING)
+      cprintf("%s \t %d \t RUNNING \t %d \n", p -> name, p -> pid, p -> calculatedPriority);
+  }
+  release(&ptable.lock);
+  return 25;
+}
+
+int calculateMinCalculatedPriority(){
+  struct proc *p;
+  struct proc *highP = NULL;
+  struct proc *p1;
+  
+
+    for (p=ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    highP = p;
+      // choose one with highest priority
+      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+        if ( highP -> calculatedPriority >  p1-> calculatedPriority )   // larger value, lower priority 
+          highP = p1;
+      }
+  }
+  if (highP == NULL){
+    return 0;
+  }
+  cprintf("ashghal %d\n", highP->calculatedPriority);
+  return highP -> calculatedPriority;
+
+}
+
+
+int changePolicy(int newPolicy){
+    if (newPolicy == 0 || newPolicy == 1 || newPolicy == 2){
+      policy = newPolicy;
+      return 1;
+    }
+    return -1;
+}
+
+void updatePtableTimes(){
+  struct proc *p;
+  sti();
+  acquire(&ptable.lock);
+  for (p=ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if (p -> state == SLEEPING)
+      p -> sleepingTime = ticks;
+    else if (p -> state == RUNNING)
+      p -> runningTime = ticks;
+    else if (p -> state == RUNNABLE)
+      p -> readyTime = ticks;
+  }
+  release(&ptable.lock);
+  
 }

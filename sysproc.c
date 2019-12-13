@@ -106,3 +106,27 @@ int sys_getChildren(void){
   argint(0, &pid);
   return getChildren(pid);
 }
+
+int sys_cps(void){
+  return cps();
+}
+
+int
+sys_changePriority (void)
+{
+  int pr;
+  if(argint(0, &pr) < 0)
+    return -1;
+
+  return changePriority (pr);
+}
+
+int
+sys_changePolicy(void){
+  int plc;
+    if(argint(0, &plc) < 0)
+    return -1;
+
+  return changePolicy (plc);
+}
+
