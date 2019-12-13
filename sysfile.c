@@ -95,6 +95,7 @@ sys_write(void)
 int
 sys_close(void)
 {
+  counter[21]++;
   int fd;
   struct file *f;
 
@@ -121,6 +122,7 @@ sys_fstat(void)
 int
 sys_link(void)
 {
+  counter[19]++;
   char name[DIRSIZ], *new, *old;
   struct inode *dp, *ip;
 
@@ -187,6 +189,7 @@ isdirempty(struct inode *dp)
 int
 sys_unlink(void)
 {
+  counter[18]++;
   struct inode *ip, *dp;
   struct dirent de;
   char name[DIRSIZ], *path;
@@ -339,6 +342,7 @@ sys_open(void)
 int
 sys_mkdir(void)
 {
+  counter[20]++;
   char *path;
   struct inode *ip;
 

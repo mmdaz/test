@@ -39,7 +39,7 @@ sys_kill(void)
 int
 sys_getpid(void)
 {
-  counter[11];
+  counter[11]++;
   return myproc()->pid;
 }
 
@@ -48,6 +48,7 @@ sys_sbrk(void)
 {
   int addr;
   int n;
+  counter[12]++;
 
   if(argint(0, &n) < 0)
     return -1;
@@ -84,6 +85,7 @@ int
 sys_uptime(void)
 {
   uint xticks;
+  counter[14]++;
 
   acquire(&tickslock);
   xticks = ticks;
@@ -94,10 +96,12 @@ sys_uptime(void)
 int
 sys_count(void)
 {
+  counter[24]++;
   return count();
 }
 
 int sys_getppid(void){
+  counter[21]++;
   struct proc *curproc = myproc();
   return curproc->parent->pid;
 }
