@@ -679,17 +679,18 @@ int
 changePriority( int priority )
 {
   struct proc *p;
+  int ok = -1;
   
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
         if (p -> state == RUNNING){
-        p-> calculatedPriority += priority;
-        return 1;
+          p-> calculatedPriority += priority;
+          ok = 1;
         }
   }
   release(&ptable.lock);
 
-  return -1;
+  return ok;
 }
 
 int cps(){
