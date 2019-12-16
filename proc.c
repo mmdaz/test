@@ -99,6 +99,9 @@ found:
   p -> priority = 5;
   p -> calculatedPriority = calculateMinCalculatedPriority(); // TODO calculate minimum of all.
   p -> creationTime = ticks;
+  p -> runningTime = 0;
+  p -> sleepingTime = 0;
+  p -> readyTime = 0;
 
   release(&ptable.lock);
 
@@ -323,7 +326,10 @@ wait(void)
   }
 }
 
+
+
 int waitForChildren(struct timeVariables* time){
+
   struct proc *p;
   int havekids, pid;
   struct proc *curproc = myproc();
@@ -332,11 +338,18 @@ int waitForChildren(struct timeVariables* time){
   for(;;){
     // Scan through table looking for exited children.
     havekids = 0;
+    // cprintf("asghalllll");
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->parent != curproc)
         continue;
       havekids = 1;
       if(p->state == ZOMBIE){
+        time -> creationTime = p -> creationTime;
+        time -> terminationTime = p -> terminationTime;
+        time -> sleepingTime = p -> sleepingTime;
+        time -> readyTime = p -> readyTime;
+        time -> runningTime = p -> runningTime;
+        // cprintf("\nashghal : %d\n", p -> creationTime);
         // Found one.
         pid = p->pid;
         kfree(p->kstack);
@@ -734,11 +747,11 @@ void updatePtableTimes(){
   for (p=ptable.proc; p < &ptable.proc[NPROC]; p++)
   {
     if (p -> state == SLEEPING)
-      p -> sleepingTime = ticks;
+      p -> sleepingTime += 1;
     else if (p -> state == RUNNING)
-      p -> runningTime = ticks;
+      p -> runningTime += 1;
     else if (p -> state == RUNNABLE)
-      p -> readyTime = ticks;
+      p -> readyTime +=1;
   }
   release(&ptable.lock);
   
