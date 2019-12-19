@@ -349,6 +349,7 @@ int waitForChildren(struct timeVariables* time){
         time -> sleepingTime = p -> sleepingTime;
         time -> readyTime = p -> readyTime;
         time -> runningTime = p -> runningTime;
+        time -> priority_group = p -> priorityGroup;
         // cprintf("\nashghal : %d\n", p -> creationTime);
         // Found one.
         pid = p->pid;
@@ -685,6 +686,7 @@ changePriority( int priority )
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
         if (p -> state == RUNNING){
           p-> calculatedPriority += priority;
+          p -> priorityGroup = priority;
           ok = 1;
         }
   }

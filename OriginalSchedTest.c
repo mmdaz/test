@@ -6,14 +6,15 @@
 int main(int argc, char const *argv[])
 {
     struct timeVariables my_time;
-    int numOfProc = 3;
+    int numOfProc = 10;
     int time_counter = 0, turnAroundTimeSum = 0, CBTSum = 0, WaitingTimeSum = 0;
+    changePolicy(1);
     
     
     for (int i = 0; i < numOfProc; i ++){
             int fid = fork();
             if (fid == 0){
-                for (int j=0; j < 100; j ++){
+                for (int j=0; j < 1000; j ++){
                     printf(1, " pid: %d,%d ", getpid(), j);
                 }
                 exit();

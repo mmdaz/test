@@ -44,6 +44,7 @@ struct proc {
   int runningTime;
   int priority;
   int calculatedPriority;
+  int priorityGroup;            // for grouping processes by their priority in tests
   uint sz;                     // Size of process memory (bytes)
   pde_t* pgdir;                // Page table
   char *kstack;                // Bottom of kernel stack for this process
