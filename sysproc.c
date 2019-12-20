@@ -39,6 +39,7 @@ sys_kill(void)
 int
 sys_getpid(void)
 {
+  counter[11]++;
   return myproc()->pid;
 }
 
@@ -47,6 +48,7 @@ sys_sbrk(void)
 {
   int addr;
   int n;
+  counter[12]++;
 
   if(argint(0, &n) < 0)
     return -1;
@@ -83,6 +85,7 @@ int
 sys_uptime(void)
 {
   uint xticks;
+  counter[14]++;
 
   acquire(&tickslock);
   xticks = ticks;
@@ -93,10 +96,12 @@ sys_uptime(void)
 int
 sys_count(void)
 {
+  counter[24]++;
   return count();
 }
 
 int sys_getppid(void){
+  counter[21]++;
   struct proc *curproc = myproc();
   return curproc->parent->pid;
 }
@@ -108,12 +113,14 @@ int sys_getChildren(void){
 }
 
 int sys_cps(void){
+  counter[25]++;
   return cps();
 }
 
 int
 sys_changePriority (void)
 {
+  counter[26]++;
   int pr;
   if(argint(0, &pr) < 0)
     return -1;
@@ -123,6 +130,7 @@ sys_changePriority (void)
 
 int
 sys_changePolicy(void){
+  counter[28]++;
   int plc;
     if(argint(0, &plc) < 0)
     return -1;

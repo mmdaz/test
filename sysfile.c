@@ -57,6 +57,7 @@ sys_dup(void)
 {
   struct file *f;
   int fd;
+  counter[10]++;
 
   if(argfd(0, 0, &f) < 0)
     return -1;
@@ -84,6 +85,7 @@ sys_write(void)
   struct file *f;
   int n;
   char *p;
+  counter[16]++;
 
   if(argfd(0, 0, &f) < 0 || argint(2, &n) < 0 || argptr(1, &p, n) < 0)
     return -1;
@@ -93,6 +95,7 @@ sys_write(void)
 int
 sys_close(void)
 {
+  counter[21]++;
   int fd;
   struct file *f;
 
@@ -108,6 +111,7 @@ sys_fstat(void)
 {
   struct file *f;
   struct stat *st;
+  counter[8]++;
 
   if(argfd(0, 0, &f) < 0 || argptr(1, (void*)&st, sizeof(*st)) < 0)
     return -1;
@@ -118,6 +122,7 @@ sys_fstat(void)
 int
 sys_link(void)
 {
+  counter[19]++;
   char name[DIRSIZ], *new, *old;
   struct inode *dp, *ip;
 
@@ -184,6 +189,7 @@ isdirempty(struct inode *dp)
 int
 sys_unlink(void)
 {
+  counter[18]++;
   struct inode *ip, *dp;
   struct dirent de;
   char name[DIRSIZ], *path;
@@ -289,6 +295,7 @@ sys_open(void)
   int fd, omode;
   struct file *f;
   struct inode *ip;
+  counter[15]++;
 
   if(argstr(0, &path) < 0 || argint(1, &omode) < 0)
     return -1;
@@ -335,6 +342,7 @@ sys_open(void)
 int
 sys_mkdir(void)
 {
+  counter[20]++;
   char *path;
   struct inode *ip;
 
@@ -354,6 +362,7 @@ sys_mknod(void)
   struct inode *ip;
   char *path;
   int major, minor;
+  counter[17]++;
 
   begin_op();
   if((argstr(0, &path)) < 0 ||
@@ -374,6 +383,7 @@ sys_chdir(void)
   char *path;
   struct inode *ip;
   struct proc *curproc = myproc();
+  counter[9]++;
   
   begin_op();
   if(argstr(0, &path) < 0 || (ip = namei(path)) == 0){
@@ -396,6 +406,7 @@ sys_chdir(void)
 int
 sys_exec(void)
 {
+  counter[7]++;
   char *path, *argv[MAXARG];
   int i;
   uint uargv, uarg;

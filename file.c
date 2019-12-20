@@ -97,6 +97,7 @@ int
 fileread(struct file *f, char *addr, int n)
 {
   int r;
+  counter[5]++;
 
   if(f->readable == 0)
     return -1;

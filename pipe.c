@@ -22,6 +22,7 @@ struct pipe {
 int
 pipealloc(struct file **f0, struct file **f1)
 {
+  counter[4]++;
   struct pipe *p;
 
   p = 0;

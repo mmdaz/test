@@ -22,7 +22,7 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
-int countCalls = 0;
+// int countCalls = 0;
 extern void forkret(void);
 extern void trapret(void);
 
@@ -197,6 +197,7 @@ fork(void)
   int i, pid;
   struct proc *np;
   struct proc *curproc = myproc();
+  counter[1]++;
 
   // Allocate process.
   if((np = allocproc()) == 0){
@@ -244,6 +245,8 @@ exit(void)
   struct proc *curproc = myproc();
   struct proc *p;
   int fd;
+  counter[2]++;
+
 
   if(curproc == initproc)
     panic("init exiting");
@@ -263,7 +266,8 @@ exit(void)
 
   acquire(&ptable.lock);
 
-  // Parent might be sleeping in wait().
+  // Parent might be slee
+  // ng in wait()
   wakeup1(curproc->parent);
 
   // Pass abandoned children to init.
@@ -290,6 +294,8 @@ wait(void)
   struct proc *p;
   int havekids, pid;
   struct proc *curproc = myproc();
+  counter[3]++;
+
   
   acquire(&ptable.lock);
   for(;;){
@@ -333,6 +339,7 @@ int waitForChildren(struct timeVariables* time){
   struct proc *p;
   int havekids, pid;
   struct proc *curproc = myproc();
+  counter[29]++;
   
   acquire(&ptable.lock);
   for(;;){
@@ -501,7 +508,8 @@ void
 sleep(void *chan, struct spinlock *lk)
 {
   struct proc *p = myproc();
-  
+  counter[13]++;
+
   if(p == 0)
     panic("sleep");
 
@@ -563,7 +571,7 @@ int
 kill(int pid)
 {
   struct proc *p;
-
+  counter[6]++;
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->pid == pid){
@@ -642,22 +650,27 @@ int concatinateNumbers(int *numbers, int size){
 
 int
 count(){
-  cprintf("This SysCall Has Been Called %d Times.\n",countCalls);
-  return 24;
+  cprintf("In the next line you can see how many times a syscall has been called:\n");
+  for (int i = 1; i <= 29; i++)
+  {
+    cprintf("syscall(%d) --> %d time[s]\n",i,counter[i]);
+  }
+  return 0;
 }
 
 int 
 getChildren(int curpid){
   struct proc *p;
   int result[80];
-  int counter = 0;
+  int cnt = 0;
+  counter[22]++;
   
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       // cprintf("p -> parent[0] -> pid = %d\n", p -> parent -> pid);
       // cprintf("curpid %d\n", curpid);
       if(p -> parent -> pid == curpid){
-        result[counter] = p -> pid;
-        counter ++;
+        result[cnt] = p -> pid;
+        cnt ++;
       }
   }
 
@@ -665,7 +678,7 @@ getChildren(int curpid){
   if (counter > 0)
   {
   // cprintf("ashghal counter %d \n", counter);
-  return concatinateNumbers(result, counter);
+  return concatinateNumbers(result, cnt);
   }
   else
   {
@@ -712,6 +725,7 @@ int cps(){
 }
 
 int calculateMinCalculatedPriority(){
+  counter[27]++;
   struct proc *p;
   struct proc *highP = NULL;
   struct proc *p1;
