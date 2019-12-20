@@ -130,9 +130,7 @@ extern int             policy;
 int             changePolicy(int);
 extern void     updatePtableTimes(void);
 int             waitForChildren(struct timeVariables*);
-int             counter[25];
-int             counter[25];
-int             counter[29];
+int             counter[30];
 
 // swtch.S
 void            swtch(struct context**, struct context*);

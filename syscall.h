@@ -20,28 +20,12 @@
 #define SYS_link   19
 #define SYS_mkdir  20
 #define SYS_close  21
-<<<<<<< HEAD
 #define SYS_getppid     22
 #define SYS_getChildren 23
-<<<<<<< HEAD
 #define SYS_count 24
 #define SYS_cps 25
 #define SYS_changePriority 26
 #define SYS_calculateMinCalculatedPriority 27
 #define SYS_changePolicy 28
-<<<<<<< HEAD
 #define SYS_waitForChildren 29
-=======
-=======
-#define SYS_count       24
->>>>>>> feat(maryam): count syscall seems complete!
->>>>>>> conflicts REALLY resolved
-=======
-#define SYS_getppid                          22
-#define SYS_getChildren                      23
-#define SYS_count                            24
-#define SYS_cps                              25
-#define SYS_changePriority                   26
-#define SYS_calculateMinCalculatedPriority   27
-#define SYS_changePolicy                     28
->>>>>>> feat(maryam): adding counter for new syscalls.
+

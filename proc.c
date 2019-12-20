@@ -339,6 +339,7 @@ int waitForChildren(struct timeVariables* time){
   struct proc *p;
   int havekids, pid;
   struct proc *curproc = myproc();
+  counter[29]++;
   
   acquire(&ptable.lock);
   for(;;){
@@ -650,7 +651,7 @@ int concatinateNumbers(int *numbers, int size){
 int
 count(){
   cprintf("In the next line you can see how many times a syscall has been called:\n");
-  for (int i = 1; i <= 28; i++)
+  for (int i = 1; i <= 29; i++)
   {
     cprintf("syscall(%d) --> %d time[s]\n",i,counter[i]);
   }
