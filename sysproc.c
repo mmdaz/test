@@ -113,12 +113,14 @@ int sys_getChildren(void){
 }
 
 int sys_cps(void){
+  counter[25]++;
   return cps();
 }
 
 int
 sys_changePriority (void)
 {
+  counter[26]++;
   int pr;
   if(argint(0, &pr) < 0)
     return -1;
@@ -128,6 +130,7 @@ sys_changePriority (void)
 
 int
 sys_changePolicy(void){
+  counter[28]++;
   int plc;
     if(argint(0, &plc) < 0)
     return -1;

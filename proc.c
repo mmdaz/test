@@ -650,7 +650,7 @@ int concatinateNumbers(int *numbers, int size){
 int
 count(){
   cprintf("In the next line you can see how many times a syscall has been called:\n");
-  for (int i = 0; i < 24; i++)
+  for (int i = 1; i <= 28; i++)
   {
     cprintf("syscall(%d) --> %d time[s]\n",i,counter[i]);
   }
@@ -724,6 +724,7 @@ int cps(){
 }
 
 int calculateMinCalculatedPriority(){
+  counter[27]++;
   struct proc *p;
   struct proc *highP = NULL;
   struct proc *p1;
