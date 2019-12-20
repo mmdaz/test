@@ -110,6 +110,7 @@ extern int countCalls;
 extern int sys_cps(void);
 extern int sys_changePriority(void);
 extern int sys_changePolicy(void);
+extern int sys_waitForChildren(void);
 
 
 
@@ -141,6 +142,7 @@ static int (*syscalls[])(void) = {
 [SYS_cps]     sys_cps,
 [SYS_changePriority]    sys_changePriority,
 [SYS_changePolicy]      sys_changePolicy,
+[SYS_waitForChildren]   sys_waitForChildren,
 };
 
 void
