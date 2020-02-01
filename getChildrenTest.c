@@ -16,7 +16,8 @@ printf(1, "ppid: %d\n", getppid());
 printf(1, "pid: %d\n", getpid());
 int children_id = getChildren(pid);
 if (children_id != -1)
-printf(1, "children of %d : %d\n", pid, children_id);
+printf(1, "children of %d : %d\n", getppid(), children_id);
+// printf(1, )
 
 // printf(1, "children of %d is : %d\n", pid2, getChildren(pid2));
 

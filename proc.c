@@ -102,6 +102,9 @@ found:
   p -> runningTime = 0;
   p -> sleepingTime = 0;
   p -> readyTime = 0;
+  for (int i = 0; i < 25; i ++){
+    counter[i] = 0;
+  }
 
   release(&ptable.lock);
 
